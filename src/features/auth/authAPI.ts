@@ -16,7 +16,6 @@ export type RegisterDataType = {
   email: string;
   password: string;
   fullName: string;
-  avatarUrl?: string;
 };
 
 export type LoginDataType = {

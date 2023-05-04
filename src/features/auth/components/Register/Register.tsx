@@ -6,10 +6,10 @@ import { Link, Navigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import logo from 'common/assets/logo.png';
 import s from 'features/auth/Auth.module.scss';
-import { LoginDataType } from 'features/auth/authAPI';
-import { login } from 'features/auth/authThunks';
+import { RegisterDataType } from 'features/auth/authAPI';
+import { register as registerThunk } from 'features/auth/authThunks';
 
-export const Login: FC = () => {
+export const Register: FC = () => {
   const dispatch = useAppDispatch();
 
   const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn);
@@ -18,12 +18,12 @@ export const Login: FC = () => {
     register,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm<LoginDataType>({
+  } = useForm<RegisterDataType>({
     mode: 'onBlur',
   });
 
-  const onSubmit: SubmitHandler<LoginDataType> = data => {
-    dispatch(login(data));
+  const onSubmit: SubmitHandler<RegisterDataType> = data => {
+    dispatch(registerThunk(data));
   };
 
   if (isLoggedIn) {
@@ -35,7 +35,7 @@ export const Login: FC = () => {
       <div className={s.logo}>
         <img src={logo} alt="Whatsapp logo" />
       </div>
-      <h1>Sign In</h1>
+      <h1>Sign Up</h1>
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <label htmlFor="email" className={s.label}>
@@ -72,11 +72,30 @@ export const Login: FC = () => {
           )}
         </label>
 
+        <label htmlFor="fullName" className={s.label}>
+          Password
+          <input
+            className={s.input}
+            type="text"
+            id="fullName"
+            {...register('fullName', {
+              required: 'Укажите ваше имя',
+              minLength: {
+                value: 3,
+                message: 'Минимум 3 символа',
+              },
+            })}
+          />
+          {errors?.fullName && (
+            <span className={s.error}>{errors.fullName.message || 'Ошибка'}</span>
+          )}
+        </label>
+
         <input type="submit" disabled={!isValid} />
       </form>
 
       <div className={s.link}>
-        <Link to="/register">Sign Up</Link>
+        <Link to="/login">Sign In</Link>
       </div>
     </div>
   );
