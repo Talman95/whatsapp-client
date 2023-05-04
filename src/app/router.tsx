@@ -1,6 +1,7 @@
 import { createBrowserRouter, Outlet } from 'react-router-dom';
 
 import { PrivateRoute } from 'app/PrivateRoute';
+import { Login } from 'features/auth/components/Login/Login';
 
 export const router = createBrowserRouter([
   {
@@ -26,7 +27,7 @@ export const router = createBrowserRouter([
   },
   {
     path: '/login',
-    element: <div>Login</div>,
+    element: <Login />,
   },
   {
     path: '/register',
