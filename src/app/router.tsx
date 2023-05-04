@@ -1,15 +1,26 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Outlet } from 'react-router-dom';
 
-import { App } from 'app/App';
+import { PrivateRoute } from 'app/PrivateRoute';
 
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <App />,
+    element: <PrivateRoute />,
     children: [
       {
-        path: 'chats/:chatId',
-        element: <div>Chats</div>,
+        path: '/',
+        element: (
+          <div>
+            Nav with list of dialogs
+            <Outlet />
+          </div>
+        ),
+        children: [
+          {
+            path: 'chats/:chatId',
+            element: <div>Chat</div>,
+          },
+        ],
       },
     ],
   },

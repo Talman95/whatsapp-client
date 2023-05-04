@@ -1,4 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+
+import { authMe } from 'features/auth/authThunks';
 
 const slice = createSlice({
   name: 'app',
@@ -21,3 +23,9 @@ const slice = createSlice({
 });
 
 export const { actions: appActions, reducer: appReducer } = slice;
+
+export const initialize = createAsyncThunk('app/initialize', async (_, { dispatch }) => {
+  await dispatch(authMe());
+
+  dispatch(appActions.setIsAppInitialized({ isAppInitialized: true }));
+});
