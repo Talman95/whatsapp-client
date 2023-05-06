@@ -1,0 +1,65 @@
+.sidebar {
+  overflow-y: hidden;
+  height: 100%;
+}
+
+.chatTitle {
+  display: flex;
+  align-items: center;
+}
+
+.avatar {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.avatar img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.chatHeaderRight img {
+  width: 20px;
+  height: 20px;
+  margin: 5px 13px;
+  opacity: 0.4;
+}
+
+.header {
+  background-color: #EDEDED;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.messageHeaderContent {
+  margin-left: 15px;
+}
+
+.messageHeaderContent p {
+  font-size: 13px;
+  color: grey;
+}
+
+.chatAvatar {
+  position: relative;
+  flex: 1;
+  height: 50px;
+  min-width: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.sidebarChats {
+  height: calc(100vh - 151px);
+  overflow-y: scroll;
+}

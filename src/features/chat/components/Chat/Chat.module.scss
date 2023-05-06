@@ -1,0 +1,10 @@
+.container {
+  position: relative;
+  background: #fff;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.06), 0 2px 5px 0 rgba(0, 0, 0, 0.06);
+  width: 100%;
+  margin: 40px 20px 0;
+  display: grid;
+  grid-template-columns: 35% auto;
+  height: calc(100% - 40px);
+}

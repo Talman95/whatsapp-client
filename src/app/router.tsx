@@ -1,8 +1,9 @@
-import { createBrowserRouter, Outlet } from 'react-router-dom';
+import { createBrowserRouter } from 'react-router-dom';
 
 import { PrivateRoute } from 'app/PrivateRoute';
 import { Login } from 'features/auth/components/Login/Login';
 import { Register } from 'features/auth/components/Register/Register';
+import { Chat } from 'features/chat/components/Chat/Chat';
 
 export const router = createBrowserRouter([
   {
@@ -11,12 +12,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: (
-          <div>
-            Nav with list of dialogs
-            <Outlet />
-          </div>
-        ),
+        element: <Chat />,
         children: [
           {
             path: 'chats/:chatId',
