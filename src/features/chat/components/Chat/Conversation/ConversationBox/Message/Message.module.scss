@@ -1,0 +1,90 @@
+.messageContainer {
+  display: flex;
+  width: 100%;
+}
+
+.receivedContainer {
+  justify-content: flex-start;
+}
+
+.sentContainer {
+  justify-content: flex-end;
+}
+
+.message {
+  color: #000;
+  clear: both;
+  line-height: 18px;
+  font-size: 15px;
+  padding: 8px;
+  position: relative;
+  margin: 8px 0;
+  max-width: 85%;
+  word-wrap: break-word;
+}
+
+.message:after {
+  position: absolute;
+  content: "";
+  width: 0;
+  height: 0;
+  border-style: solid;
+}
+
+.received {
+  background: #fff;
+  border-radius: 0 5px 5px 5px;
+}
+
+.received:after {
+  border-width: 0 10px 10px 0;
+  border-color: transparent #fff transparent transparent;
+  top: 0;
+  left: -9px;
+}
+
+.sent {
+  background: #e1ffc7;
+  border-radius: 5px 0 5px 5px;
+}
+
+.sent:after {
+  border-width: 0 0 10px 10px;
+  border-color: transparent transparent transparent #e1ffc7;
+  top: 0;
+  right: -9px;
+}
+
+.metadata {
+  display: inline-block;
+  float: right;
+  padding: 0 0 0 7px;
+  position: relative;
+  bottom: -4px;
+}
+
+.time {
+  color: rgba(0, 0, 0, .45);
+  font-size: 11px;
+  display: inline-block;
+}
+
+.tick {
+  display: inline-block;
+  margin-left: 5px;
+  position: relative;
+  top: 4px;
+  height: 16px;
+  width: 16px;
+}
+
+.message:first-child {
+  margin: 16px 0 8px;
+}
+
+.received .metadata {
+  padding: 0 0 0 16px;
+}
+
+
+

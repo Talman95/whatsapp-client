@@ -1,0 +1,43 @@
+.header {
+  height: 60px;
+  background-color: #EDEDED;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.chatTitle {
+  display: flex;
+  align-items: center;
+}
+
+.avatar {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.avatar img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.messageHeaderContent {
+  margin-left: 15px;
+}
+
+.chatHeaderRight img {
+  width: 20px;
+  height: 20px;
+  margin: 5px 13px;
+  opacity: 0.4;
+}
+

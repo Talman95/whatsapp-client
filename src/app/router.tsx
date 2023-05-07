@@ -4,6 +4,7 @@ import { PrivateRoute } from 'app/PrivateRoute';
 import { Login } from 'features/auth/components/Login/Login';
 import { Register } from 'features/auth/components/Register/Register';
 import { Chat } from 'features/chat/components/Chat/Chat';
+import { Conversation } from 'features/chat/components/Chat/Conversation/Conversation';
 
 export const router = createBrowserRouter([
   {
@@ -16,7 +17,7 @@ export const router = createBrowserRouter([
         children: [
           {
             path: 'chats/:chatId',
-            element: <div>Chat</div>,
+            element: <Conversation />,
           },
         ],
       },

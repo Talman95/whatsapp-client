@@ -1,6 +1,7 @@
 .sidebar {
   overflow-y: hidden;
   height: 100%;
+  background-color: #EDEDED;
 }
 
 .chatTitle {
@@ -33,6 +34,7 @@
 }
 
 .header {
+  height: 60px;
   background-color: #EDEDED;
   display: flex;
   justify-content: space-between;
