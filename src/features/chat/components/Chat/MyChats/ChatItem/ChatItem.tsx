@@ -7,15 +7,15 @@ import s from './ChatItem.module.scss';
 import avatar from 'common/assets/avatar.png';
 
 type PropsType = {
-  id: number;
-  fullName: string;
+  _id: string;
+  chatName: string;
   avatarUrl?: string;
 };
 
-export const ChatItem: FC<PropsType> = ({ id, fullName, avatarUrl }) => {
+export const ChatItem: FC<PropsType> = ({ _id, chatName, avatarUrl }) => {
   return (
     <NavLink
-      to={`/chats/${id}`}
+      to={`/chats/${_id}`}
       className={({ isActive }) => (isActive ? `${s.active}` : ``)}
     >
       <div className={s.sidebarChat}>
@@ -23,7 +23,7 @@ export const ChatItem: FC<PropsType> = ({ id, fullName, avatarUrl }) => {
           <img src={avatarUrl || avatar} alt="User" />
         </div>
         <div className={s.chatInfo}>
-          <h4>{fullName}</h4>
+          <h4>{chatName}</h4>
           <p>Hey meet me tomorrow</p>
         </div>
         <div className={s.time}>

@@ -11,7 +11,7 @@ type PropsType = {
   handleClose: () => void;
 };
 
-const results = [{ _id: 1, fullName: '123' }];
+const results = [{ _id: '1', chatName: '123' }];
 
 export const Sidebar: FC<PropsType> = ({ isOpen, handleClose }) => {
   const sidebarClass = s.sidebar + (isOpen ? ` ${s.open}` : '');
@@ -38,8 +38,8 @@ export const Sidebar: FC<PropsType> = ({ isOpen, handleClose }) => {
           {results.length === 0 ? (
             <div>No dialogs</div>
           ) : (
-            results.map(({ _id, fullName }) => (
-              <ChatItem key={_id} id={_id} fullName={fullName} />
+            results.map(({ _id, chatName }) => (
+              <ChatItem key={_id} _id={_id} chatName={chatName} />
             ))
           )}
         </div>

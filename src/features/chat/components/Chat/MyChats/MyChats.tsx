@@ -1,32 +1,30 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 
 import { useParams } from 'react-router-dom';
 
 import s from './MyChats.module.scss';
 
+import { useAppDispatch, useAppSelector } from 'app/hooks';
 import avatar from 'common/assets/avatar.png';
+import { getSenderUser } from 'common/utils/getSenderUser';
+import { fetchAllChats } from 'features/chat/chatThunks';
 import { ChatItem } from 'features/chat/components/Chat/MyChats/ChatItem/ChatItem';
-
-const chats = [
-  { _id: 1, fullName: '1111' },
-  { _id: 2, fullName: '1111' },
-  { _id: 3, fullName: '1111' },
-  { _id: 4, fullName: '1111' },
-  { _id: 5, fullName: '1111' },
-  { _id: 6, fullName: '1111' },
-  { _id: 7, fullName: '1111' },
-  { _id: 8, fullName: '1111' },
-] as {
-  _id: number;
-  fullName: string;
-}[];
 
 type PropsType = {
   handleOpen: () => void;
 };
 
 export const MyChats: FC<PropsType> = ({ handleOpen }) => {
+  const dispatch = useAppDispatch();
+
+  const chats = useAppSelector(state => state.chat.chats);
+  const authUserId = useAppSelector(state => state.auth.user?._id);
+
   const { chatId } = useParams();
+
+  useEffect(() => {
+    dispatch(fetchAllChats());
+  }, []);
 
   return (
     <div
@@ -45,8 +43,14 @@ export const MyChats: FC<PropsType> = ({ handleOpen }) => {
         {chats.length === 0 ? (
           <div>No dialogs</div>
         ) : (
-          chats.map(({ _id, fullName }) => (
-            <ChatItem key={_id} id={_id} fullName={fullName} />
+          chats.map(({ _id, chatName, isGroupChat, users }) => (
+            <ChatItem
+              key={_id}
+              _id={isGroupChat ? _id : getSenderUser(authUserId, users)._id}
+              chatName={
+                isGroupChat ? chatName : getSenderUser(authUserId, users).fullName
+              }
+            />
           ))
         )}
       </div>
