@@ -1,6 +1,6 @@
 .sidebar {
   position: fixed;
-  width: 30%;
+  width: 40%;
   max-width: 317px;
   height: 100vh;
   overflow: hidden;
@@ -11,6 +11,13 @@
   z-index: 2;
   display: block;
   left: -100%;
+
+  @media(max-width: 800px) {
+    width: 60%;
+  }
+  @media(max-width: 500px) {
+    width: 80%;
+  }
 }
 
 .open {

@@ -1,14 +1,22 @@
 import React, { FC } from 'react';
 
+import { useParams } from 'react-router-dom';
+
 import s from './MyChats.module.scss';
 
 import avatar from 'common/assets/avatar.png';
-import chat from 'common/assets/chat.svg';
-import circleNotchSolid from 'common/assets/circle-notch-solid.svg';
-import more from 'common/assets/more.svg';
 import { ChatItem } from 'features/chat/components/Chat/MyChats/ChatItem/ChatItem';
 
-const chats = [] as {
+const chats = [
+  { _id: 1, fullName: '1111' },
+  { _id: 2, fullName: '1111' },
+  { _id: 3, fullName: '1111' },
+  { _id: 4, fullName: '1111' },
+  { _id: 5, fullName: '1111' },
+  { _id: 6, fullName: '1111' },
+  { _id: 7, fullName: '1111' },
+  { _id: 8, fullName: '1111' },
+] as {
   _id: number;
   fullName: string;
 }[];
@@ -18,19 +26,18 @@ type PropsType = {
 };
 
 export const MyChats: FC<PropsType> = ({ handleOpen }) => {
+  const { chatId } = useParams();
+
   return (
-    <div className={s.sidebar}>
+    <div
+      className={`${s.container} ${chatId ? s.containerWithId : s.containerWithoutId}`}
+    >
       <div className={s.header}>
         <button type="button" onClick={handleOpen}>
           Open
         </button>
         <div className={s.avatar}>
           <img src={avatar} alt="" />
-        </div>
-        <div className={s.chatHeaderRight}>
-          <img src={circleNotchSolid} alt="" />
-          <img src={chat} alt="" />
-          <img src={more} alt="" />
         </div>
       </div>
 

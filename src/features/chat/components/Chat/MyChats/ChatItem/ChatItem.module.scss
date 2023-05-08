@@ -9,11 +9,15 @@
 
 .chatAvatar {
   position: relative;
-  flex: 1;
   height: 50px;
-  min-width: 50px;
+  width: 50px;
   border-radius: 50%;
   overflow: hidden;
+
+  @media(max-width: 800px) {
+    height: 30px;
+    width: 30px;
+  }
 }
 
 .sidebarChat {
@@ -44,12 +48,23 @@
 .chatInfo {
   flex: 10;
   margin-left: 15px;
+
+  @media(max-width: 800px) {
+    & h4 {
+      font-size: 14px;
+    }
+  }
 }
+
 
 .chatInfo p {
   font-size: 13px;
   line-height: 20px;
   color: gray;
+
+  @media (max-width: 800px) {
+    font-size: 10px;
+  }
 }
 
 .time p {
@@ -58,8 +73,12 @@
   white-space: nowrap;
   margin-top: -16px;
   color: gray;
+
+  @media(max-width: 800px) {
+    font-size: 10px;
+  }
 }
 
 .active {
-  background-color: #EBEBEB;
+  background-color: rgba(128, 128, 128, 0.43);
 }
