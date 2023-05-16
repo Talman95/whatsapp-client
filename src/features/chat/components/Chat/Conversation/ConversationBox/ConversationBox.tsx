@@ -3,7 +3,11 @@ import React, { FC, useEffect, useRef, useState } from 'react';
 import s from './ConversationBox.module.scss';
 import { Message } from './Message/Message';
 
+import { useAppSelector } from 'app/hooks';
+
 export const ConversationBox: FC = () => {
+  const messages = useAppSelector(state => state.chat.messages);
+
   const messagesAnchorRef = useRef<HTMLDivElement>(null);
 
   const [autoScroll, setAutoScroll] = useState(true);
@@ -32,8 +36,13 @@ export const ConversationBox: FC = () => {
 
   return (
     <div className={s.messageContent} onScroll={onChatListScroll}>
-      <Message ownerMessageId="1" />
-
+      {messages.length === 0 ? (
+        <div>No messages</div>
+      ) : (
+        messages.map(({ _id, content, sender }) => (
+          <Message key={_id} content={content} sender={sender} />
+        ))
+      )}
       <div ref={messagesAnchorRef} />
     </div>
   );

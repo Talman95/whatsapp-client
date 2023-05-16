@@ -7,7 +7,11 @@ import s from './ConversationHeader.module.scss';
 import avatar from 'common/assets/avatar.png';
 import searchSolid from 'common/assets/search-solid.svg';
 
-export const ConversationHeader: FC = () => {
+type PropsType = {
+  chatName: string;
+};
+
+export const ConversationHeader: FC<PropsType> = ({ chatName }) => {
   const navigate = useNavigate();
 
   const onBackClick = (): void => {
@@ -25,7 +29,7 @@ export const ConversationHeader: FC = () => {
           <img src={avatar} alt="" />
         </div>
         <div className={s.messageHeaderContent}>
-          <h4>Amelia Cuiree</h4>
+          <h4>{chatName}</h4>
           <p>online</p>
         </div>
       </div>

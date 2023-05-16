@@ -14,3 +14,17 @@ export const fetchAllChats = createAsyncThunk(
     }
   },
 );
+
+export const accessChat = createAsyncThunk(
+  'chat/accessChat',
+  async (userId: string, { rejectWithValue }) => {
+    try {
+      const chat = await chatAPI.accessChat(userId);
+      const messages = await chatAPI.fetchAllMessages(chat._id);
+
+      return { activeChat: chat, messages };
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+  },
+);

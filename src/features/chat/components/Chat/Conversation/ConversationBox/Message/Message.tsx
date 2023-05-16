@@ -2,25 +2,29 @@ import React, { FC } from 'react';
 
 import s from './Message.module.scss';
 
+import { useAppSelector } from 'app/hooks';
+import { MessageSenderType } from 'features/chat/chatAPI';
+
 type PropsType = {
-  ownerMessageId: string;
+  content: string;
+  sender: MessageSenderType;
 };
 
-const ID = '1';
+export const Message: FC<PropsType> = ({ content, sender }) => {
+  const authUserId = useAppSelector(state => state.auth.user?._id);
 
-export const Message: FC<PropsType> = ({ ownerMessageId }) => {
   return (
     <article
       className={`${s.messageContainer} ${
-        ownerMessageId === ID ? s.sentContainer : s.receivedContainer
+        authUserId === sender._id ? s.sentContainer : s.receivedContainer
       }`}
     >
-      <div className={`${s.message} ${ownerMessageId === ID ? s.sent : s.received}`}>
-        You were drunk.
+      <div className={`${s.message} ${authUserId === sender._id ? s.sent : s.received}`}>
+        {content}
         <span className={s.metadata}>
           <span className={s.time} />
           <span className={s.time}>11:34 pm</span>
-          {ownerMessageId === ID && (
+          {authUserId === sender._id && (
             <span className={s.tick}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
