@@ -1,8 +1,38 @@
-import { FC } from 'react';
+import { ChangeEvent, FC, KeyboardEvent, useState } from 'react';
 
 import s from './AddMessageForm.module.scss';
 
-export const AddMessageForm: FC = () => {
+import { useAppDispatch } from 'app/hooks';
+import { sendMessage } from 'features/chat/chatThunks';
+
+type PropsType = {
+  chatId: string;
+};
+
+export const AddMessageForm: FC<PropsType> = ({ chatId }) => {
+  const dispatch = useAppDispatch();
+
+  const [message, setMessage] = useState('');
+
+  const onChangeMessage = (e: ChangeEvent<HTMLInputElement>): void => {
+    setMessage(e.currentTarget.value);
+  };
+
+  const onMessageSendClick = (): void => {
+    const trimmedMessage = message.trim();
+
+    if (trimmedMessage !== '') {
+      dispatch(sendMessage({ content: trimmedMessage, chatId }));
+      setMessage('');
+    }
+  };
+
+  const onEnterClick = (e: KeyboardEvent<HTMLInputElement>): void => {
+    if (e.key === 'Enter') {
+      onMessageSendClick();
+    }
+  };
+
   return (
     <div className={s.conversationCompose}>
       <div className={s.emoji}>
@@ -27,11 +57,14 @@ export const AddMessageForm: FC = () => {
         name="input"
         placeholder="Type a message"
         autoComplete="off"
+        value={message}
+        onChange={onChangeMessage}
+        onKeyPress={onEnterClick}
       />
       <div className={s.photo}>
         <i className={`${s.zmdi} ${s.zmdiCamera}`} />
       </div>
-      <button className={s.send} type="button">
+      <button className={s.send} type="button" onClick={onMessageSendClick}>
         <div className={s.circle}>
           <i className={`${s.zmdi} ${s.zmdiMailSend}`} />
         </div>

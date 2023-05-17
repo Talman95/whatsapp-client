@@ -19,6 +19,26 @@ export const chatAPI = {
 
     return res.data;
   },
+
+  async sendMessage(chatId: string, content: string) {
+    const res = await api.post<MessageType>(`/messages`, { chatId, content });
+
+    return res.data;
+  },
+};
+
+export type SendMessageType = {
+  sender: SenderType;
+  content: string;
+  chat: ChatType;
+  readBy: any[];
+  _id: string;
+  createdAt: string;
+  updatedAt: string;
+};
+export type SenderType = {
+  _id: string;
+  fullName: string;
 };
 
 export type ChatType = {

@@ -28,3 +28,16 @@ export const accessChat = createAsyncThunk(
     }
   },
 );
+
+export const sendMessage = createAsyncThunk(
+  'chat/sendMessage',
+  async (data: { content: string; chatId: string }, { rejectWithValue }) => {
+    try {
+      const message = await chatAPI.sendMessage(data.chatId, data.content);
+
+      return { message };
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+  },
+);

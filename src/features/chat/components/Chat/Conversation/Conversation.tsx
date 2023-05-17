@@ -46,7 +46,7 @@ export const Conversation: FC = () => {
 
       <ConversationBox />
 
-      <AddMessageForm />
+      <AddMessageForm chatId={activeChat._id} />
     </div>
   );
 };

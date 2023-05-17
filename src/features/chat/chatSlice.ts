@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { ChatType, MessageType } from 'features/chat/chatAPI';
-import { accessChat, fetchAllChats } from 'features/chat/chatThunks';
+import { accessChat, fetchAllChats, sendMessage } from 'features/chat/chatThunks';
 
 const slice = createSlice({
   name: 'chat',
@@ -24,6 +24,9 @@ const slice = createSlice({
       .addCase(accessChat.fulfilled, (state, action) => {
         state.activeChat = action.payload.activeChat;
         state.messages = action.payload.messages;
+      })
+      .addCase(sendMessage.fulfilled, (state, action) => {
+        state.messages.push(action.payload.message);
       });
   },
 });
