@@ -32,7 +32,7 @@ export const ConversationBox: FC = () => {
     if (autoScroll) {
       messagesAnchorRef.current?.scrollIntoView({ behavior: 'smooth' });
     }
-  }, [autoScroll]);
+  }, [autoScroll, messages]);
 
   return (
     <div className={s.messageContent} onScroll={onChatListScroll}>

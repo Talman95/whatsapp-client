@@ -1,7 +1,11 @@
+import { io } from 'socket.io-client';
+
 import { api } from 'common/api/api';
 import { UserType } from 'features/auth/authAPI';
 
 export const chatAPI = {
+  socket: null as null | any,
+
   async fetchAllChat() {
     const res = await api.get<ChatType[]>('/chats');
 
@@ -23,7 +27,24 @@ export const chatAPI = {
   async sendMessage(chatId: string, content: string) {
     const res = await api.post<MessageType>(`/messages`, { chatId, content });
 
+    this.socket.emit('new message', res.data);
+
     return res.data;
+  },
+
+  createConnection(user: UserType) {
+    this.socket = io('http://localhost:5000');
+    this.socket.emit('setup', user);
+  },
+  joinChat(chatId: string) {
+    this.socket.emit('join chat', chatId);
+  },
+  subscribe(newMessageSendHandler: (message: MessageType) => void) {
+    this.socket.on('message received', newMessageSendHandler);
+  },
+  destroyConnection() {
+    this.socket.disconnect();
+    this.socket = null;
   },
 };
 

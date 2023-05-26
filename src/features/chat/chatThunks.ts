@@ -1,6 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
+import { RootState } from 'app/store';
 import { chatAPI } from 'features/chat/chatAPI';
+import { chatActions } from 'features/chat/chatSlice';
 
 export const fetchAllChats = createAsyncThunk(
   'chat/fetchAllChats',
@@ -41,3 +43,32 @@ export const sendMessage = createAsyncThunk(
     }
   },
 );
+
+export const createConnection = createAsyncThunk(
+  'chat/createConnection',
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  (_, thunkAPI) => {
+    const state = thunkAPI.getState() as RootState;
+    const { user } = state.auth;
+
+    if (user) {
+      chatAPI.createConnection(user);
+    }
+
+    chatAPI.subscribe(message => {
+      thunkAPI.dispatch(chatActions.newMessageSendHandler(message));
+    });
+  },
+);
+
+export const joinChat = createAsyncThunk(
+  'chat/createConnection',
+  (chatId: string | undefined) => {
+    if (!chatId) return;
+    chatAPI.joinChat(chatId);
+  },
+);
+
+export const destroyConnection = createAsyncThunk('chat/destroyConnection', () => {
+  chatAPI.destroyConnection();
+});

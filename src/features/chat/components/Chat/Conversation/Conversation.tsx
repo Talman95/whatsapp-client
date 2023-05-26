@@ -10,7 +10,12 @@ import { ConversationHeader } from './ConversationHeader/ConversationHeader';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { getSenderUser } from 'common/utils/getSenderUser';
 import { chatActions } from 'features/chat/chatSlice';
-import { accessChat } from 'features/chat/chatThunks';
+import {
+  accessChat,
+  createConnection,
+  destroyConnection,
+  joinChat,
+} from 'features/chat/chatThunks';
 
 export const Conversation: FC = () => {
   const dispatch = useAppDispatch();
@@ -23,10 +28,14 @@ export const Conversation: FC = () => {
   useEffect(() => {
     if (chatId) {
       dispatch(accessChat(chatId));
+
+      dispatch(createConnection());
+      dispatch(joinChat(chatId));
     }
 
     return () => {
       dispatch(chatActions.cleanActiveChat());
+      dispatch(destroyConnection());
     };
   }, [chatId]);
 

@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { ChatType, MessageType } from 'features/chat/chatAPI';
 import { accessChat, fetchAllChats, sendMessage } from 'features/chat/chatThunks';
@@ -14,6 +14,9 @@ const slice = createSlice({
     cleanActiveChat(state) {
       state.activeChat = null;
       state.messages = [];
+    },
+    newMessageSendHandler(state, action: PayloadAction<MessageType>) {
+      state.messages.push(action.payload);
     },
   },
   extraReducers: builder => {
