@@ -10,6 +10,13 @@ export const authAPI = {
   authMe() {
     return api.get<UserType>('/auth/me');
   },
+  fetchUsersByName(name: string) {
+    return api.get<UserType[]>('/auth/users', {
+      params: {
+        name,
+      },
+    });
+  },
 };
 
 export type RegisterDataType = {

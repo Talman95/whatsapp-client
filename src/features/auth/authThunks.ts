@@ -45,3 +45,19 @@ export const authMe = createAsyncThunk('auth/authMe', async (_, { rejectWithValu
     return rejectWithValue('error');
   }
 });
+
+export const getUsersByName = createAsyncThunk(
+  'auth/getUsersByName',
+  async (name: string, { rejectWithValue }) => {
+    try {
+      // eslint-disable-next-line no-debugger
+      debugger;
+
+      const res = await authAPI.fetchUsersByName(name);
+
+      return { searchedUsers: res.data };
+    } catch (e: any) {
+      return rejectWithValue('error');
+    }
+  },
+);

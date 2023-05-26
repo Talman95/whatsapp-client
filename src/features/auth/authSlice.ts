@@ -1,13 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { UserType } from 'features/auth/authAPI';
-import { authMe, login, register } from 'features/auth/authThunks';
+import { authMe, getUsersByName, login, register } from 'features/auth/authThunks';
 
 const slice = createSlice({
   name: 'auth',
   initialState: {
     user: null as UserType | null,
     isLoggedIn: false,
+    searchedUsers: [] as UserType[],
   },
   reducers: {},
   extraReducers: builder => {
@@ -23,6 +24,9 @@ const slice = createSlice({
       .addCase(authMe.fulfilled, (state, action) => {
         state.user = action.payload.user;
         state.isLoggedIn = true;
+      })
+      .addCase(getUsersByName.fulfilled, (state, action) => {
+        state.searchedUsers = action.payload.searchedUsers;
       });
   },
 });

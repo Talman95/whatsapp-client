@@ -46,7 +46,6 @@ export const sendMessage = createAsyncThunk(
 
 export const createConnection = createAsyncThunk(
   'chat/createConnection',
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   (_, thunkAPI) => {
     const state = thunkAPI.getState() as RootState;
     const { user } = state.auth;
@@ -62,7 +61,7 @@ export const createConnection = createAsyncThunk(
 );
 
 export const joinChat = createAsyncThunk(
-  'chat/createConnection',
+  'chat/joinChat',
   (chatId: string | undefined) => {
     if (!chatId) return;
     chatAPI.joinChat(chatId);

@@ -2,18 +2,19 @@ import React, { FC } from 'react';
 
 import s from './Sidebar.module.scss';
 
+import { useAppSelector } from 'app/hooks';
 import closeIcon from 'common/assets/closeOutline.svg';
-import searchSolid from 'common/assets/search-solid.svg';
 import { ChatItem } from 'features/chat/components/Chat/MyChats/ChatItem/ChatItem';
+import { Search } from 'features/chat/components/Chat/Sidebar/Search/Search';
 
 type PropsType = {
   isOpen: boolean;
   handleClose: () => void;
 };
 
-const results = [{ _id: '1', chatName: '123' }];
-
 export const Sidebar: FC<PropsType> = ({ isOpen, handleClose }) => {
+  const searchedUsers = useAppSelector(state => state.auth.searchedUsers);
+
   const sidebarClass = s.sidebar + (isOpen ? ` ${s.open}` : '');
 
   return (
@@ -27,19 +28,14 @@ export const Sidebar: FC<PropsType> = ({ isOpen, handleClose }) => {
           <img src={closeIcon} alt="close sidebar" id="hw5-menu-close" />
         </button>
 
-        <div className={s.sidebarSearch}>
-          <div className={s.sidebarSearchContainer}>
-            <img src={searchSolid} alt="" />
-            <input type="text" placeholder="Search or start new chat" />
-          </div>
-        </div>
+        <Search />
 
         <div className={s.sidebarChats}>
-          {results.length === 0 ? (
+          {searchedUsers.length === 0 ? (
             <div>No dialogs</div>
           ) : (
-            results.map(({ _id, chatName }) => (
-              <ChatItem key={_id} _id={_id} chatName={chatName} />
+            searchedUsers.map(({ _id, fullName }) => (
+              <ChatItem key={_id} _id={_id} chatName={fullName} />
             ))
           )}
         </div>
