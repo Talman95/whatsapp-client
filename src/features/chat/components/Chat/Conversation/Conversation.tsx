@@ -10,12 +10,7 @@ import { ConversationHeader } from './ConversationHeader/ConversationHeader';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { getSenderUser } from 'common/utils/getSenderUser';
 import { chatActions } from 'features/chat/chatSlice';
-import {
-  accessChat,
-  createConnection,
-  destroyConnection,
-  joinChat,
-} from 'features/chat/chatThunks';
+import { accessChat, joinChat, leaveChat } from 'features/chat/chatThunks';
 
 export const Conversation: FC = () => {
   const dispatch = useAppDispatch();
@@ -28,16 +23,22 @@ export const Conversation: FC = () => {
   useEffect(() => {
     if (chatId) {
       dispatch(accessChat(chatId));
-
-      dispatch(createConnection());
-      dispatch(joinChat(chatId));
     }
 
     return () => {
       dispatch(chatActions.cleanActiveChat());
-      dispatch(destroyConnection());
     };
   }, [chatId]);
+
+  useEffect(() => {
+    if (!activeChat) return;
+
+    dispatch(joinChat(activeChat._id));
+
+    return () => {
+      dispatch(leaveChat(activeChat._id));
+    };
+  }, [activeChat]);
 
   if (!activeChat) {
     return <div>Loading...</div>;
@@ -49,7 +50,7 @@ export const Conversation: FC = () => {
         chatName={
           activeChat.isGroupChat
             ? activeChat.chatName
-            : getSenderUser(authUserId, activeChat?.users).fullName
+            : getSenderUser(authUserId, activeChat.users).fullName
         }
       />
 

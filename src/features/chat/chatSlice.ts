@@ -9,6 +9,7 @@ const slice = createSlice({
     chats: [] as ChatType[],
     activeChat: null as null | ChatType,
     messages: [] as MessageType[],
+    isTyping: false,
   },
   reducers: {
     cleanActiveChat(state) {
@@ -17,6 +18,12 @@ const slice = createSlice({
     },
     newMessageSendHandler(state, action: PayloadAction<MessageType>) {
       state.messages.push(action.payload);
+    },
+    startTypingHandler(state) {
+      state.isTyping = true;
+    },
+    stopTypingHandler(state) {
+      state.isTyping = false;
     },
   },
   extraReducers: builder => {

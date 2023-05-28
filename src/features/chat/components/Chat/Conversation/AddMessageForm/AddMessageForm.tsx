@@ -1,9 +1,9 @@
-import { ChangeEvent, FC, KeyboardEvent, useState } from 'react';
+import { ChangeEvent, FC, KeyboardEvent, useRef, useState } from 'react';
 
 import s from './AddMessageForm.module.scss';
 
-import { useAppDispatch } from 'app/hooks';
-import { sendMessage } from 'features/chat/chatThunks';
+import { useAppDispatch, useAppSelector } from 'app/hooks';
+import { sendMessage, startTyping, stopTyping } from 'features/chat/chatThunks';
 
 type PropsType = {
   chatId: string;
@@ -12,10 +12,28 @@ type PropsType = {
 export const AddMessageForm: FC<PropsType> = ({ chatId }) => {
   const dispatch = useAppDispatch();
 
+  const timerId = useRef<any>(null);
+
+  const isTyping = useAppSelector(state => state.chat.isTyping);
+
   const [message, setMessage] = useState('');
 
   const onChangeMessage = (e: ChangeEvent<HTMLInputElement>): void => {
     setMessage(e.currentTarget.value);
+
+    const timerLength = 3000;
+
+    if (!isTyping) {
+      dispatch(startTyping(chatId));
+      timerId.current = setTimeout(() => {
+        dispatch(stopTyping(chatId));
+      }, timerLength);
+    } else {
+      clearTimeout(timerId.current);
+      timerId.current = setTimeout(() => {
+        dispatch(stopTyping(chatId));
+      }, timerLength);
+    }
   };
 
   const onMessageSendClick = (): void => {

@@ -53,21 +53,42 @@ export const createConnection = createAsyncThunk(
     if (user) {
       chatAPI.createConnection(user);
     }
-
-    chatAPI.subscribe(message => {
-      thunkAPI.dispatch(chatActions.newMessageSendHandler(message));
-    });
-  },
-);
-
-export const joinChat = createAsyncThunk(
-  'chat/joinChat',
-  (chatId: string | undefined) => {
-    if (!chatId) return;
-    chatAPI.joinChat(chatId);
   },
 );
 
 export const destroyConnection = createAsyncThunk('chat/destroyConnection', () => {
   chatAPI.destroyConnection();
+});
+
+export const joinChat = createAsyncThunk(
+  'chat/joinChat',
+  async (chatId: string | undefined, thunkAPI) => {
+    if (!chatId) return;
+
+    await chatAPI.joinChat(chatId);
+
+    chatAPI.subscribeChat(
+      message => {
+        thunkAPI.dispatch(chatActions.newMessageSendHandler(message));
+      },
+      () => {
+        thunkAPI.dispatch(chatActions.startTypingHandler());
+      },
+      () => {
+        thunkAPI.dispatch(chatActions.stopTypingHandler());
+      },
+    );
+  },
+);
+
+export const leaveChat = createAsyncThunk('chat/leaveChat', (chatId: string) => {
+  chatAPI.leaveChat(chatId);
+});
+
+export const startTyping = createAsyncThunk('chat/startTyping', (chatId: string) => {
+  chatAPI.startTyping(chatId);
+});
+
+export const stopTyping = createAsyncThunk('chat/stopTyping', (chatId: string) => {
+  chatAPI.stopTyping(chatId);
 });

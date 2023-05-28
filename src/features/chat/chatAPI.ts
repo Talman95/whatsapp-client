@@ -27,7 +27,8 @@ export const chatAPI = {
   async sendMessage(chatId: string, content: string) {
     const res = await api.post<MessageType>(`/messages`, { chatId, content });
 
-    this.socket.emit('new message', res.data);
+    this.socket.emit('new message', chatId, res.data);
+    this.socket.emit('stop typing', chatId);
 
     return res.data;
   },
@@ -36,15 +37,48 @@ export const chatAPI = {
     this.socket = io('http://localhost:5000');
     this.socket.emit('setup', user);
   },
+
   joinChat(chatId: string) {
     this.socket.emit('join chat', chatId);
   },
-  subscribe(newMessageSendHandler: (message: MessageType) => void) {
+
+  // subscribeChat(
+  //   newMessageSendHandler: (message: MessageType) => void,
+  //   typingHandler: (isTyping: boolean) => void,
+  // ) {
+  //   this.socket.on('message received', newMessageSendHandler);
+  //   this.socket.on('typing', typingHandler);
+  //   this.socket.on('stop typing', typingHandler);
+  // },
+
+  subscribeChat(
+    newMessageSendHandler: (message: MessageType) => void,
+    startTypingHandler: () => void,
+    stopTypingHandler: () => void,
+  ) {
     this.socket.on('message received', newMessageSendHandler);
+    this.socket.on('typing', startTypingHandler);
+    this.socket.on('stop typing', stopTypingHandler);
   },
+
+  leaveChat(chatId: string) {
+    this.socket.emit('leave chat', chatId);
+    this.socket.off('message received');
+    this.socket.off('typing');
+    this.socket.off('stop typing');
+  },
+
   destroyConnection() {
     this.socket.disconnect();
     this.socket = null;
+  },
+
+  startTyping(chatId: string) {
+    this.socket.emit('typing', chatId);
+  },
+
+  stopTyping(chatId: string) {
+    this.socket.emit('stop typing', chatId);
   },
 };
 
