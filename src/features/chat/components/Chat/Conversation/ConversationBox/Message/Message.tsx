@@ -1,5 +1,8 @@
 import React, { FC } from 'react';
 
+import { formatDistanceToNow, format, isSameDay } from 'date-fns';
+import { ru } from 'date-fns/locale';
+
 import s from './Message.module.scss';
 
 import { useAppSelector } from 'app/hooks';
@@ -8,10 +11,23 @@ import { MessageSenderType } from 'features/chat/chatAPI';
 type PropsType = {
   content: string;
   sender: MessageSenderType;
+  createdDate: string;
+  updatedDate: string;
 };
 
-export const Message: FC<PropsType> = ({ content, sender }) => {
+export const Message: FC<PropsType> = ({ content, sender, createdDate, updatedDate }) => {
   const authUserId = useAppSelector(state => state.auth.user?._id);
+
+  const date = createdDate === updatedDate ? createdDate : updatedDate;
+  const today = new Date(Date.now());
+  const sentDay = new Date(date);
+
+  const stringDate = isSameDay(today, sentDay)
+    ? formatDistanceToNow(new Date(date), {
+        addSuffix: true,
+        locale: ru,
+      })
+    : format(new Date(date), 'dd MMMM, HH:mm', { locale: ru });
 
   return (
     <article
@@ -23,7 +39,7 @@ export const Message: FC<PropsType> = ({ content, sender }) => {
         {content}
         <span className={s.metadata}>
           <span className={s.time} />
-          <span className={s.time}>11:34 pm</span>
+          <span className={s.time}>{stringDate}</span>
           {authUserId === sender._id && (
             <span className={s.tick}>
               <svg

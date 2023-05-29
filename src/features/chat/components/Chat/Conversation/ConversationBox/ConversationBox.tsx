@@ -39,8 +39,14 @@ export const ConversationBox: FC = () => {
       {messages.length === 0 ? (
         <div>No messages</div>
       ) : (
-        messages.map(({ _id, content, sender }) => (
-          <Message key={_id} content={content} sender={sender} />
+        messages.map(({ _id, content, sender, createdAt, updatedAt }) => (
+          <Message
+            key={_id}
+            content={content}
+            sender={sender}
+            createdDate={createdAt}
+            updatedDate={updatedAt}
+          />
         ))
       )}
       <div ref={messagesAnchorRef} />
