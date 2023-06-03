@@ -20,7 +20,7 @@ export const MyChats: FC<PropsType> = ({ handleOpen }) => {
   const chats = useAppSelector(state => state.chat.chats);
   const authUserId = useAppSelector(state => state.auth.user?._id);
 
-  const { chatId } = useParams();
+  const { userParamId } = useParams();
 
   useEffect(() => {
     dispatch(fetchAllChats());
@@ -28,7 +28,9 @@ export const MyChats: FC<PropsType> = ({ handleOpen }) => {
 
   return (
     <div
-      className={`${s.container} ${chatId ? s.containerWithId : s.containerWithoutId}`}
+      className={`${s.container} ${
+        userParamId ? s.containerWithId : s.containerWithoutId
+      }`}
     >
       <div className={s.header}>
         <button type="button" onClick={handleOpen}>

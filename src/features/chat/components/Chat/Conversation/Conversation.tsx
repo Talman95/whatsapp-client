@@ -18,17 +18,19 @@ export const Conversation: FC = () => {
   const activeChat = useAppSelector(state => state.chat.activeChat);
   const authUserId = useAppSelector(state => state.auth.user?._id);
 
-  const { chatId } = useParams();
+  const { userParamId } = useParams();
 
   useEffect(() => {
-    if (chatId) {
-      dispatch(accessChat(chatId));
+    if (userParamId) {
+      dispatch(accessChat(userParamId));
     }
 
     return () => {
-      dispatch(chatActions.cleanActiveChat());
+      if (userParamId) {
+        dispatch(chatActions.cleanActiveChat());
+      }
     };
-  }, [chatId]);
+  }, [userParamId]);
 
   useEffect(() => {
     if (!activeChat) return;
@@ -54,7 +56,7 @@ export const Conversation: FC = () => {
         }
       />
 
-      <ConversationBox />
+      <ConversationBox id={activeChat._id} />
 
       <AddMessageForm chatId={activeChat._id} />
     </div>

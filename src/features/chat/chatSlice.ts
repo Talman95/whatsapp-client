@@ -1,7 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { ChatType, MessageType } from 'features/chat/chatAPI';
-import { accessChat, fetchAllChats, sendMessage } from 'features/chat/chatThunks';
+import {
+  accessChat,
+  fetchAllChats,
+  fetchMessages,
+  sendMessage,
+} from 'features/chat/chatThunks';
 
 const slice = createSlice({
   name: 'chat',
@@ -10,11 +15,17 @@ const slice = createSlice({
     activeChat: null as null | ChatType,
     messages: [] as MessageType[],
     isTyping: false,
+    currentPage: 1,
+    hasNextPage: true,
   },
   reducers: {
     cleanActiveChat(state) {
       state.activeChat = null;
       state.messages = [];
+      state.currentPage = 1;
+    },
+    setNextPage(state) {
+      state.currentPage += 1;
     },
     newMessageSendHandler(state, action: PayloadAction<MessageType>) {
       state.messages.push(action.payload);
@@ -33,7 +44,10 @@ const slice = createSlice({
       })
       .addCase(accessChat.fulfilled, (state, action) => {
         state.activeChat = action.payload.activeChat;
-        state.messages = action.payload.messages;
+      })
+      .addCase(fetchMessages.fulfilled, (state, action) => {
+        state.messages = [...action.payload.messages.reverse(), ...state.messages];
+        state.hasNextPage = Boolean(action.payload.messages.length > 0);
       })
       .addCase(sendMessage.fulfilled, (state, action) => {
         state.messages.push(action.payload.message);

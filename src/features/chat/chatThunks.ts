@@ -22,9 +22,21 @@ export const accessChat = createAsyncThunk(
   async (userId: string, { rejectWithValue }) => {
     try {
       const chat = await chatAPI.accessChat(userId);
-      const messages = await chatAPI.fetchAllMessages(chat._id);
 
-      return { activeChat: chat, messages };
+      return { activeChat: chat };
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+  },
+);
+export const fetchMessages = createAsyncThunk(
+  'chat/fetchMessages',
+  async (chatId: string, { rejectWithValue, getState }) => {
+    try {
+      const state = getState() as RootState;
+      const { currentPage } = state.chat;
+
+      return await chatAPI.fetchAllMessages(chatId, currentPage);
     } catch (e) {
       return rejectWithValue(e);
     }
